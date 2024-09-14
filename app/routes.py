@@ -2,7 +2,8 @@ from flask import Blueprint, current_app, render_template, request, redirect, ur
 from werkzeug.utils import secure_filename
 import os
 
-from .handlers import hello
+from .utils import convertToTxt
+from .dataModel import DataModel
 
 routes_bp = Blueprint('routes_bp', __name__)
 
@@ -26,6 +27,11 @@ def upload_file():
         return redirect(url_for('routes_bp.home'))
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
+        if file.filename.endswith('.txt')  != '.txt':
+            file = convertToTxt(file)
+
+        dataModel = DataModel(file)
+            
         file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
         # flash('File successfully uploaded')
         return redirect(url_for('routes_bp.home'))
