@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Select Plot</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Select Plot Options</h1>
+        <form action="/plot" method="POST">
+            <input type="hidden" name="filename" value="{{ filename }}">
+
+            <label for="column_name">Select Column:</label>
+            <select name="column_name" id="column_name">
+                {% for label in labels %}
+                    <option value="{{ label }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="plot_type">Select Plot Type:</label>
+            <select name="plot_type" id="plot_type">
+                <option value="line">Line Plot</option>
+                <option value="bar">Bar Chart</option>
+                <option value="hist">Histogram</option>
+            </select>
+
+            <button type="submit">Plot</button>
+        </form>
+    </div>
+</body>
+</html>

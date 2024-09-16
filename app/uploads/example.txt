@@ -1,0 +1,5 @@
+Name    Age    Height
+John    25     175
+Alice   30     160
+Bob     22     180
+Carol   29     170
