@@ -1,53 +1,33 @@
-import base64
-from io import BytesIO
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')  # Use a non-interactive backend
 import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
+import io
+import base64
 
 class DataModel:
     def __init__(self, file_path):
-        """
-        Initialize the DataModel object by reading a .txt file
-        and parsing the first row as labels and the rest as data.
-        """
         self.file_path = file_path
         self.data = self.read_file()
         self.labels = self.data.columns if self.data is not None else []
 
     def read_file(self):
-        """
-        Reads the .txt file and loads it into a pandas DataFrame.
-        Assumes the first row contains the labels.
-        """
         try:
-            # Assume the first row has labels
-            data = pd.read_csv(self.file_path, delimiter='\t', header=0)  # Tab-separated or change delimiter
+            # Read the file with tab delimiter and infer header row
+            data = pd.read_csv(self.file_path, delimiter='\t', header=0)
             return data
         except Exception as e:
             print(f"Error reading file: {e}")
             return None
 
-    def show_summary(self):
-        """
-        Display a basic summary of the data (e.g., first few rows, description, etc.).
-        """
-        if self.data is not None:
-            print("Labels:", self.labels)
-            print(self.data.head())  # First few rows
-            print(self.data.describe())  # Summary statistics
-        else:
-            print("No data to display.")
-
     def plot_column(self, column_name, plot_type='line'):
         """
-        Plots data from a specific column.
+        Plots data from a specific column and returns the plot as a base64-encoded image.
         """
         if self.data is not None and column_name in self.data.columns:
-            fig = Figure()
-            buf = BytesIO()
-            print("Creating plotting...")
-            # plt.figure(figsize=(10, 6))
-             # Check if the column is numeric
+            plt.figure(figsize=(10, 6))
+
+            # Check if the column is numeric
             if pd.api.types.is_numeric_dtype(self.data[column_name]):
                 # Generate the appropriate plot for numeric columns
                 if plot_type == 'line':
@@ -64,16 +44,27 @@ class DataModel:
                 else:
                     print("Only bar plots are supported for non-numeric data.")
                     return None
+
+            # Set plot title and labels
             plt.title(f'{plot_type.capitalize()} Plot for {column_name}')
             plt.xlabel(column_name)
             plt.ylabel('Values')
-            fig.savefig(buf, format="png")
-            data = base64.b64encode(buf.getbuffer()).decode("ascii")
-            plt.show()
-            data = None
-            return data
+
+            # Save the plot to a BytesIO object instead of a file
+            img = io.BytesIO()
+            plt.savefig(img, format='png')
+            plt.close()  # Close the plot to avoid display in GUI
+
+            # Encode the image to base64 to send as a string
+            img.seek(0)
+            plot_url = base64.b64encode(img.getvalue()).decode('utf-8')
+            img.close()
+
+            return plot_url
         else:
             print(f"Column '{column_name}' not found in data.")
+            return None
+
 
     def get_column_data(self, column_name):
         """

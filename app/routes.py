@@ -46,22 +46,22 @@ def upload_file():
 
 @routes_bp.route('/plot', methods=['POST'])
 def plot_data():
-    # Get the form data
     column_name = request.form['column_name']
     plot_type = request.form['plot_type']
     filename = request.form['filename']
-    plot = None
 
     # Recreate the DataModel instance using the filename
     file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
     data_model = DataModel(file_path)
 
-    # Create a plot based on the user's selection
-    if column_name and plot_type:
-        # data_model.plot_column(column_name, plot_type)
-        plot = data_model.plot_column(column_name, plot_type)
+    # Generate the plot as a base64-encoded image
+    plot_image = data_model.plot_column(column_name, plot_type)
+    
+    if plot_image:
+        return render_template('plot_options.html', labels=data_model.labels, filename=filename, plot_image=plot_image)
+    else:
+        return render_template('plot_options.html', labels=data_model.labels, filename=filename, error="Unsupported type of plot for the data provided")
 
-    return render_template('plot_options.html', labels=data_model.labels, filename=filename, plot=plot)
 
 @routes_bp.route('/', methods=['GET'])
 def home():

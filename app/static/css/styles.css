@@ -1,41 +1,155 @@
+/* General styles */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #eaeaea url('/static/images/background_texture.png') no-repeat center center fixed;
+    background-size: cover;
+    flex-direction: column; /* Add flex-direction for stacking navbar and container */
 }
 
 .container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px;  /* Max width of container */
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 20px;  /* Add margin for spacing */
 }
 
 h1 {
-    text-align: center;
     color: #333;
+    margin-bottom: 30px; /* More space under the heading */
 }
 
 form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%; /* Make form elements take full width */
+}
+
+label {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: #666;
 }
 
 input[type="file"] {
-    margin-bottom: 15px;
+    padding: 15px;
+    border: 2px dashed #007BFF;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 25px;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    height: 20px;
+}
+
+input[type="file"]:hover {
+    border-color: #0056b3;
+    background-color: #eef4ff;
 }
 
 button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
+    padding: 12px 30px;
+    background-color: #007BFF;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.1em;
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-top: 15px;
 }
 
 button:hover {
     background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+select {
+    padding: 12px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 300px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+select:hover {
+    background-color: #eef4ff;
+}
+
+img {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    max-width: 100%;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #007BFF;
+    width: 100%;  /* Make navbar stretch across the width of the page */
+    max-width: 1200px;
+    padding: 20px; /* Increase padding for more space */
+    display: flex;
+    justify-content: space-between; /* Space out the navbar items */
+    align-items: center;
+    border-radius: 10px;
+    margin-bottom: 30px; /* Add some space below the navbar */
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px; /* Increase padding for more space around links */
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+    margin: 0 15px;  /* Add spacing between links */
+}
+
+.navbar a:hover {
+    background-color: #0056b3;
+    border-radius: 5px;
+    transform: scale(1.05);
+}
+
+.navbar a.active {
+    background-color: #0056b3;
+    border-radius: 5px;
+}
+
+/* Styling for select dropdown */
+select {
+    padding: 50px;  /* Increase padding for bigger height */
+    border-radius: 8px;  /* Keep it smooth and rounded */
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 350px;  /* Make the dropdown wider */
+    background-color: #f9f9f9;
+    border: 2px solid #ddd;
+    font-size: 1.2em;  /* Increase font size for bigger text */
+    transition: all 0.3s ease;
+}
+
+select:hover {
+    background-color: #eef4ff;
 }
